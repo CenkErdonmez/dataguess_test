@@ -62,8 +62,6 @@ export default function Home() {
       }
 
       setGroupedCountries(grouped);
-
-      // Automatically select the 10th item or the last one if fewer than 10 items
       if (filteredCountries.length > 0) {
         const newIndex =
           filteredCountries.length >= 10 ? 9 : filteredCountries.length - 1;
@@ -91,35 +89,38 @@ export default function Home() {
   };
 
   return (
-    <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+    <main className='flex min-h-screen flex-col items-center justify-start lg:p-24 p-4'>
       <div>
-        <p className='p-2'>
-          On this input you can search like this `search: tt` and group them by
-          code, name, currency and languages
+        <p className='p-4 lg:text-lg text-sm font-bold'>
+          Search like this <span className='text-red-300'>search: tt</span> and
+          group them by code, name, currency and languages
         </p>
+      </div>
+      <div className='lg:max-w-[20vw] w-full'>
         <input
-          className=' py-4 w-full  text-sm font-medium text-gray-900 border-4 border-black border-solid rounded-md'
+          className=' py-4 px-2 w-full  text-sm font-medium text-gray-900 border-4 border-black border-solid rounded-md hover:bg-black hover:text-white'
           type='text'
-          placeholder="Enter 'search: tt group: size' or similar"
+          placeholder="Enter 'search: tt group: code'"
           value={inputValue}
           onChange={handleInputChange}
         />
         {loading || error ? (
           <p>{error ? error.message : "Loading..."}</p>
         ) : (
-          <div>
+          <div className='drop-shadow-sm bg-gray-50 px-2 '>
             {Object.keys(groupedCountries).map((group) => (
               <div className='flex flex-col gap-4 py-2 ' key={group}>
                 <ul>
                   {groupedCountries[group].map((country) => (
                     <li
+                      className='hover:text-red-500 drop-shadow-md px-2 rounded'
                       key={country.code}
                       onClick={() => handleItemClick(country)}
                       style={{
                         backgroundColor:
                           selectedItem === country
                             ? availableColors[selectedColorIndex]
-                            : "transparent",
+                            : "",
                         cursor: "pointer",
                       }}
                     >
